@@ -6,57 +6,74 @@ class CircularQueue {
     int rear = -1;
     int[] arr = new int[10];
     public static void main(String[] args) {
-      CircularQueue q = new CircularQueue();
-      q.pushFF(1);
-      q.pushFF(2);
-      q.pushFF(3);
-      q.printQueue();
-      q.popFR();
-      q.popFR();
-      q.printQueue();
-      q.pushFR(5);
-      q.pushFR(0);
-      q.printQueue();
-      q.popFR();
-      q.printQueue();
+       CircularQueue q = new CircularQueue();
+       q.add(1);
+       q.add(2);
+       q.add(3);
+       q.add(4);
+       q.add(5);
+              q.display();
+       q.remove();
+       q.display();
     }
     
-    void printQueue() {
-        System.out.println();
-        for(int i=rear;i<=front;i++) {
-            System.out.print(" "+arr[i]);
-        }
+    boolean isFull() {
+        if(front == 0 && rear == 9) {
+            return true;
+        } 
+        if(front == rear+1) {
+            return true;
+        } 
+        return false;
     }
-    void pushFF(int num) {
+    
+    boolean isEmpty() {
         if(front == -1) {
-            arr[++front] = num;
-            rear++;
+            return true;
         } else {
-            if(front <= 9) {
-            arr[++front] = num;
-            } else {
-                System.out.print("Queue is full");
+            return false;
+        }
+    }
+    
+    void add(int num) {
+        if(isFull()) {
+            System.out.println("Full!");
+        } else {
+            if(front == -1) {
+                front = 0;
             }
+            rear = (rear+1) % 10;
+            arr[rear] = num;
+            System.out.println("added "+num);
         }
     }
     
-    void pushFR(int num) {
-        if(rear >= 0) {
-            arr[--rear] = num;
+    void remove() {
+        int element;
+        if(isEmpty()) {
+            System.out.println("Empty!");
+        }
+        else {
+            element = arr[front];
+            if(front == rear) {
+                front = 1;
+                rear = -1;
+            } else {
+                front = (front+1)%10;
+            }
+        System.out.println("removed "+element);
+        }
+    }
+    
+    void display() {
+        int i;
+        if(isEmpty()) {
+            System.out.println("Empty!");
         } else {
-            System.out.println("Can not ente from rear");
-        }
-    }
-    
-    void popFF() {
-        if(front>= rear) {
-            System.out.println(" popped "+ arr[front--]);
-        }
-    }
-    
-    void popFR() {
-        if(rear <= front && rear > -1) {
-            System.out.println("Popped "+arr[rear++]);
+            for( i=front;i!=rear+1;i=(i+1)%10) {
+                System.out.print(" "+arr[i]+" ");
+                System.out.println(arr[i]);
+            }
         }
     }
 }
